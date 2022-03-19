@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {
     OPERAND,
     OPERANDS,
@@ -9,20 +9,22 @@ import {
     DEFAULT_CALCULATOR_VALUE,
 } from "../constants";
 import {operationHandlerMap} from "./operation-handlers";
+import useCalculatorStateRefs from "./hooks/useCalculatorStateRefs";
 
-// TODO поправить выполнение одиночных операций для текушего вводимого числа
+/* TODO add
+    1) Остальные операции
+    2) Смайлик для операций
+    3) Историю операций
+    4) Сохранение одного числа в памяти и доставание из памяти
+    5) Проверить все
+* */
 export default function useCalculator() {
     const [firstOperand, setFirstOperand] = useState(DEFAULT_CALCULATOR_VALUE)
     const [secondOperand, setSecondOperand] = useState('')
-    const [operation, setOperation] = useState('')
     const [valueToDisplay, setValueToDisplay] = useState(DEFAULT_CALCULATOR_VALUE)
+    const [operation, setOperation] = useState('')
 
-    const firstOperandRef = useRef(DEFAULT_CALCULATOR_VALUE)
-    const secondOperandRef = useRef('')
-    const operationRef = useRef('')
-    firstOperandRef.current = firstOperand
-    secondOperandRef.current = secondOperand
-    operationRef.current = operation
+    const [firstOperandRef, secondOperandRef, operationRef] = useCalculatorStateRefs(firstOperand, secondOperand, operation)
 
     // TODO remove after complete
     useEffect(() => {
@@ -84,8 +86,6 @@ export default function useCalculator() {
     }, [])
 
     const handleEnterOperator = useCallback((operation) => {
-        setValueToDisplay(() => DEFAULT_CALCULATOR_VALUE)
-
         if (operation === OPERATION.CLEAR) {
             setValueToDisplay(() => DEFAULT_CALCULATOR_VALUE)
             setFirstOperand(() => DEFAULT_CALCULATOR_VALUE)
@@ -96,6 +96,7 @@ export default function useCalculator() {
         }
 
         if (operation !== OPERATION.CALCULATE) {
+            setValueToDisplay(() => DEFAULT_CALCULATOR_VALUE)
             setOperation(() => operation)
         }
 
