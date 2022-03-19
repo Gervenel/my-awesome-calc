@@ -1,0 +1,37 @@
+.wrapper {
+    display: grid;
+    grid-template-areas: 'clear sign percent division'
+                         'numbers numbers numbers multiply'
+                         'numbers numbers numbers subtract'
+                         'numbers numbers numbers adding'
+                         'numbers numbers numbers calculate';
+    gap: 1px;
+}
+
+.numbers {
+    grid-area: numbers;
+}
+.clear {
+    grid-area: clear;
+}
+.sign {
+    grid-area: sign;
+}
+.percent {
+    grid-area: percent;
+}
+.division {
+    grid-area: division;
+}
+.multiply {
+    grid-area: multiply;
+}
+.subtract {
+    grid-area: subtract;
+}
+.adding {
+    grid-area: adding;
+}
+.calculate {
+    grid-area: calculate;
+}

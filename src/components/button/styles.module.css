@@ -1,0 +1,7 @@
+.button {
+    min-width: 23px;
+    padding: 10px;
+    text-align: center;
+    background-color: #676565;
+    cursor: pointer;
+}
