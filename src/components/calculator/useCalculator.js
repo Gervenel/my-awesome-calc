@@ -10,11 +10,12 @@ import {
 } from "../constants";
 import {operationHandlerMap} from "./operation-handlers";
 import useCalculatorStateRefs from "./hooks/useCalculatorStateRefs";
+import useCalcHistory from "./hooks/useCalcHistory";
 
+/*
+* Бинарные операции и унарные надо разделять таким макаром, что унарные применяются на текущее число, бинарные на оба
+* */
 /* TODO add
-    Поправить операции, чот хуета какая-то
-     Когда выбираешь сначала операцию для двух, а потом операцию для одного должна выполняться операция для одного
-     Когда выбираешь сначала операцию, потом забиваешь числа - забивается второе, но такие нажатия должны игнорироваться
     1) Остальные операции
         remove one
     2) Смайлик для операций
@@ -29,10 +30,11 @@ export default function useCalculator() {
     const [operation, setOperation] = useState('')
 
     const [firstOperandRef, secondOperandRef, operationRef] = useCalculatorStateRefs(firstOperand, secondOperand, operation)
+    const [history, updateHistory] = useCalcHistory()
 
     // TODO remove after complete
     useEffect(() => {
-        console.table({firstOperand, secondOperand, operation, valueToDisplay})
+        // console.table({firstOperand, secondOperand, operation, valueToDisplay})
     }, [firstOperand, secondOperand, operation, valueToDisplay])
 
     const validateValue = useCallback((prev, value) => {
@@ -66,10 +68,9 @@ export default function useCalculator() {
         }
     }, [stateToViewUpdater])
 
-    const calculate = useCallback((operationToExecute) => {
+    const calculate = useCallback((operation) => {
         const firstOperand = parseFloat(firstOperandRef.current)
         const secondOperand = parseFloat(secondOperandRef.current)
-        const operation = operationToExecute ?? operationRef.current
         const operationHandler = operationHandlerMap.get(operation)
 
         let calculatedValue;
@@ -82,6 +83,7 @@ export default function useCalculator() {
 
         if (calculatedValue) {
             const valueToState = calculatedValue.toString()
+            updateHistory(firstOperand, secondOperand, operation)
 
             setFirstOperand(() => valueToState)
             setValueToDisplay(() => valueToState)
@@ -100,15 +102,11 @@ export default function useCalculator() {
             return
         }
 
-        if (OPERATIONS_WITH_TWO_OPERANDS.includes(operation)) {
-            setValueToDisplay(() => DEFAULT_CALCULATOR_VALUE)
-        }
-
         if (operation !== OPERATION.CALCULATE) {
             setOperation(() => operation)
         }
 
-        calculate(operationRef.current || operation)
+        calculate(operationRef.current ?? operation)
     }, [calculate])
 
     const handleButtonClick = useCallback((value) => {
@@ -119,5 +117,5 @@ export default function useCalculator() {
         }
     }, [handleEnterOperand, handleEnterOperator])
 
-    return { valueToDisplay, handleButtonClick }
+    return { valueToDisplay, handleButtonClick, history }
 }

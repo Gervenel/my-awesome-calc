@@ -3,9 +3,4 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Main from "./components";
 
-ReactDOM.render(
-  <React.StrictMode>
-      <Main />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+ReactDOM.render(<Main />, document.getElementById('root'));

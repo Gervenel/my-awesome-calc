@@ -1,5 +1,3 @@
-import BookOutlined from '@ant-design/icons'
-
 export const DEFAULT_CALCULATOR_VALUE = '0'
 
 export const OPERAND = {

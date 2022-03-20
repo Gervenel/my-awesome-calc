@@ -1,9 +1,11 @@
 .button {
-    min-width: 23px;
-    height: 23px;
+    min-width: 80px;
+    height: 80px;
     padding: 10px;
     text-align: center;
     background-color: #676565;
+    font-size: 30px;
+    color: white !important;
     cursor: pointer;
     display: flex;
     align-items: center;
