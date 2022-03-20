@@ -13,11 +13,6 @@ import useCalculatorStateRefs from './useCalculatorStateRefs'
 import useCalculatorDisplayValueEffects from './useCalculatorDisplayValueEffects'
 import useOperationHandlers from './useOperationHandlers'
 
-/* TODO add
-        Если после операции, пользователь вводит число, сносить старое
-    2) Смайлик для операций
-    5) Проверить все
-* */
 export default function useCalculator() {
     const [firstOperand, setFirstOperand] = useState(DEFAULT_CALCULATOR_VALUE)
     const [secondOperand, setSecondOperand] = useState('')
@@ -26,8 +21,8 @@ export default function useCalculator() {
     const [binaryOperation, setBinaryOperation] = useState('')
     const [isFinish, setIsFinish] = useState(false)
 
-    const [firstOperandRef, secondOperandRef, binaryOperationRef] = useCalculatorStateRefs(firstOperand, secondOperand, binaryOperation)
-    const [history, updateHistory] = useCalcHistory()
+    const { firstOperandRef, secondOperandRef, binaryOperationRef, isFinishRef } = useCalculatorStateRefs(firstOperand, secondOperand, binaryOperation, isFinish)
+    const { history, updateHistory } = useCalcHistory()
     const { operationHandlerMap, error, handleResetError } = useOperationHandlers()
 
     useCalculatorDisplayValueEffects(firstOperand, secondOperand, setValueToDisplay)
@@ -36,7 +31,8 @@ export default function useCalculator() {
         return {
             firstOperand: firstOperandRef.current,
             secondOperand: secondOperandRef.current,
-            binaryOperation: binaryOperationRef.current
+            binaryOperation: binaryOperationRef.current,
+            isFinish: isFinishRef.current,
         }
     }, [])
 
@@ -80,6 +76,7 @@ export default function useCalculator() {
         const { firstOperand, binaryOperation } = getCurrentValues()
         const valueValidator = getValueValidator(value)
 
+
         if (firstOperand && binaryOperation) {
             setSecondOperand(valueValidator)
         } else {
@@ -91,6 +88,7 @@ export default function useCalculator() {
         if (OPERATIONS_WITH_ONE_OPERAND.includes(operation)) {
             setUnaryOperation(() => operation)
         } else {
+            setIsFinish(false)
             setBinaryOperation(() => operation)
         }
     }, [])
@@ -98,17 +96,22 @@ export default function useCalculator() {
     const handleButtonClick = useCallback((value) => {
         handleResetError()
 
-        let { firstOperand } = getCurrentValues()
+        let { firstOperand, isFinish } = getCurrentValues()
 
         firstOperand = parseFloat(firstOperand)
 
         if (isNaN(firstOperand) || firstOperand === Infinity || firstOperand === -Infinity) {
-            setFirstOperand(DEFAULT_CALCULATOR_VALUE)
-            setSecondOperand('')
-            setBinaryOperation('')
+            setFirstOperand(() => DEFAULT_CALCULATOR_VALUE)
+            setSecondOperand(() => '')
+            setBinaryOperation(() => '')
         }
 
         if (OPERANDS.includes(value)) {
+            if (isFinish) {
+                setFirstOperand(() => DEFAULT_CALCULATOR_VALUE)
+                setIsFinish(() => false)
+            }
+
             handleEnterOperand(value)
         } else if (OPERATIONS.includes(value)) {
             handleEnterOperator(value)
@@ -131,7 +134,7 @@ export default function useCalculator() {
 
             setCurrentOperandValue(calculatedValue)
             updateHistory(` ${unaryOperation} ${currentValue} = ${calculatedValue}`)
-            setUnaryOperation('')
+            setUnaryOperation(() => '')
         }
     }, [unaryOperation])
 
@@ -147,6 +150,7 @@ export default function useCalculator() {
 
         return () => {
             if (binaryOperation) {
+
                 const { firstOperand, secondOperand } = getCurrentValues()
 
                 if (firstOperand && secondOperand) {
@@ -157,6 +161,7 @@ export default function useCalculator() {
                     updateHistory(` ${firstOperand} ${binaryOperation} ${secondOperand} = ${calculatedValue}`)
                     setSecondOperand(() => '')
                     setBinaryOperation(() => '')
+                    setIsFinish(() => true)
                 }
             }
         }

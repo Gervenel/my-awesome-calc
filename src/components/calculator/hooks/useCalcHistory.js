@@ -23,5 +23,5 @@ export default function useCalcHistory() {
         })
     }, [])
 
-    return [history, updateHistory]
+    return { history, updateHistory }
 }
