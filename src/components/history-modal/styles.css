@@ -1,3 +1,36 @@
-.wrapper {
-
+.ant-modal {
+    min-width: 576px !important;
+    width: max-content !important;
+    margin: 30px !important;
+    height: 90vh !important;
+    overflow: hidden !important;
 }
+
+.ant-modal-content {
+    height: 100% !important;
+}
+
+.ant-modal-body {
+    overflow: auto !important;
+    height: 93% !important;
+}
+
+.tagsWrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tag {
+    margin: 10px !important;
+    padding: 10px !important;
+    max-width: 100% !important;
+    overflow: auto !important;
+}
+
+.text {
+    font-size: 1rem;
+}
+

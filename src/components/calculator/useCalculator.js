@@ -9,6 +9,7 @@ import {
 import {operationHandlerMap} from "./operation-handlers";
 
 import {
+    useSavedValue,
     useCalcHistory,
     useCalculatorStateRefs,
     useCalculatorDisplayValueEffects,
@@ -17,8 +18,6 @@ import {
 /* TODO add
         Если после операции, пользователь вводит число, сносить старое
     2) Смайлик для операций
-    3) Историю операций
-    4) Сохранение одного числа в памяти и доставание из памяти
     5) Проверить все
 * */
 export default function useCalculator() {
@@ -33,10 +32,6 @@ export default function useCalculator() {
     const [history, updateHistory] = useCalcHistory()
 
     useCalculatorDisplayValueEffects(firstOperand, secondOperand, setValueToDisplay)
-
-    // useEffect(() => {
-    //     console.table({firstOperand, secondOperand, valueToDisplay, binaryOperation, unaryOperation})
-    // }, [firstOperand, secondOperand, valueToDisplay, binaryOperation, unaryOperation])
 
     const getCurrentValues = useCallback(() => {
         return {
@@ -124,7 +119,6 @@ export default function useCalculator() {
             }
 
             setCurrentOperandValue(calculatedValue)
-            console.log('un')
             updateHistory(` ${unaryOperation} ${currentValue} = ${calculatedValue}`)
             setUnaryOperation('')
         }
@@ -149,7 +143,6 @@ export default function useCalculator() {
                     const calculatedValue = operationHandler(parseFloat(firstOperand), parseFloat(secondOperand)).toString()
 
                     setFirstOperand(() => calculatedValue)
-                    console.log('bin')
                     updateHistory(` ${firstOperand} ${binaryOperation} ${secondOperand} = ${calculatedValue}`)
                     setSecondOperand(() => '')
                     setBinaryOperation(() => '')
@@ -158,5 +151,17 @@ export default function useCalculator() {
         }
     }, [binaryOperation])
 
-    return { valueToDisplay, handleButtonClick, history }
+    // it placed here just to see all function above
+    const { hasSavedValue, handleSaveValue, handleSetSavedValue } = useSavedValue(getCurrentOperandValue, setCurrentOperandValue)
+
+    return {
+        valueToDisplay,
+        handleButtonClick,
+        setCurrentOperandValue,
+        history,
+        hasSavedValue,
+        handleSaveValue,
+        handleSetSavedValue,
+    }
 }
+

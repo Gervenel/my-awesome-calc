@@ -6,7 +6,9 @@ import {OPERATION} from "../constants";
 
 import styles from './styles.module.css'
 
-export default function AdditionalOperations({handleButtonClick, handleOpenHistory}) {
+export default function AdditionalOperations(props) {
+    const {handleButtonClick, handleOpenHistory, hasSavedValue, handleSaveValue, handleSetSavedValue} = props
+
     const BUTTONS = useMemo(() => [
         { className: styles.remove_one, backgroundColor: '#333', value: OPERATION.REMOVE_ONE},
         { className: styles.cos, backgroundColor: '#333', value: OPERATION.COS},
@@ -20,10 +22,15 @@ export default function AdditionalOperations({handleButtonClick, handleOpenHisto
         { className: styles.exhibitor, backgroundColor: '#333', value: OPERATION.EXPONENT},
         { className: styles.squareRoot, backgroundColor: '#333', value: OPERATION.SQUARE_ROOT},
         { className: styles.root, backgroundColor: '#333', value: OPERATION.ROOT},
-        { className: styles.memory, backgroundColor: '#f57c00', children: <BookOutlined />},
+        {
+            className: styles.memory,
+            backgroundColor: hasSavedValue ? '#f57c00' : '#cc9761',
+            children: <BookOutlined />,
+            handler: hasSavedValue ? handleSetSavedValue : handleSaveValue
+        },
         { className: styles.history, backgroundColor: '#f57c00', children: <HistoryOutlined />, handler: handleOpenHistory },
         { className: styles.fact, backgroundColor: '#333', value: OPERATION.FACT},
-    ], [handleOpenHistory])
+    ], [handleOpenHistory, hasSavedValue, handleSaveValue, handleSetSavedValue])
 
     return (
         <div className={styles.wrapper}>

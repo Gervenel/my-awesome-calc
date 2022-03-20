@@ -78,6 +78,10 @@ const handleFact = v => {
     return res
 }
 
+const handleExponent = () => {
+    return Math.E
+}
+
 export const operationHandlerMap = new Map([
     [OPERATION.CHANGE_SIGN, handleChangeSigh],
     [OPERATION.PERCENT, handlePercent],
@@ -95,5 +99,6 @@ export const operationHandlerMap = new Map([
     [OPERATION.DEGREE_OF_TWO, handleDegreeOfTow],
     [OPERATION.SQUARE_ROOT, handleSquareRoot],
     [OPERATION.ROOT, handleRoot],
-    [OPERATION.FACT, handleFact]
+    [OPERATION.FACT, handleFact],
+    [OPERATION.EXPONENT, handleExponent],
 ])
