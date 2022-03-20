@@ -1,8 +1,8 @@
 import React, {useCallback, useRef} from 'react'
 
-import BasicOperations from "../basic-operations";
-
+import AdditionalOperations from "../additional-operations";
 import useCalculator from './useCalculator';
+
 import styles from './styles.module.css'
 
 export default function Calculator() {
@@ -17,7 +17,7 @@ export default function Calculator() {
     return (
         <div className={styles.wrapper} onClick={handleCalculatorClick}>
             <input readOnly type="text" ref={inputRef} className={styles.input} value={valueToDisplay} />
-            <BasicOperations handleButtonClick={handleButtonClick} />
+            <AdditionalOperations handleButtonClick={handleButtonClick} />
         </div>
     )
 }

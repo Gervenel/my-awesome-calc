@@ -22,7 +22,7 @@ export default function InputButtons({className, handleButtonClick}) {
     return (
         <div className={`${styles.wrapper} ${className}`} >
             {BUTTONS.map((meta) => (
-                <Button key={meta.value} className={meta.className} handleClick={handleButtonClick}>{meta.value}</Button>
+                <Button key={meta.value} className={meta.className} handleClick={handleButtonClick} value={meta.value} />
             ))}
         </div>
     )

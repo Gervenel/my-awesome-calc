@@ -2,10 +2,18 @@ import React, {useCallback} from 'react'
 
 import styles from './styles.module.css'
 
-export default function Button({ children, className, backgroundColor, width, height, handleClick }) {
+export default function Button({ children, className, backgroundColor, width, height, value, handleClick }) {
     const onClick = useCallback(() => {
-        handleClick(children)
-    }, [children, handleClick])
+        handleClick(value ?? children)
+    }, [value, children, handleClick])
+
+    let additionalProps = {}
+
+    if (value) {
+        additionalProps.dangerouslySetInnerHTML = {__html: value}
+    } else {
+        additionalProps.children = children
+    }
 
     return (
         <div
@@ -16,8 +24,7 @@ export default function Button({ children, className, backgroundColor, width, he
                 width: width,
                 height: height
             }}
-        >
-            {children}
-        </div>
+            {...additionalProps}
+        />
     )
 }

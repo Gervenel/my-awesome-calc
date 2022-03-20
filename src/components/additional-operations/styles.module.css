@@ -1,0 +1,58 @@
+.wrapper {
+    display: grid;
+    grid-template-areas: 'memory exhibitor remove_one basic'
+                         'history binary cos basic'
+                         'squareRoot fromBinary sin basic'
+                         'root degree tan basic'
+                         'fact degreeOfTwo cot basic';
+    gap: 1px;
+}
+
+.basic {
+    grid-area: basic;
+}
+.remove_one {
+    grid-area: remove_one;
+}
+.cos {
+    grid-area: cos;
+}
+.sin {
+    grid-area: sin;
+}
+.tan {
+    grid-area: tan;
+}
+.cot {
+    grid-area: cot;
+}
+.binary {
+    grid-area: binary;
+}
+.fromBinary {
+    grid-area: fromBinary;
+}
+.degree {
+    grid-area: degree;
+}
+.degreeOfTwo {
+    grid-area: degreeOfTwo;
+}
+.exhibitor {
+    grid-area: exhibitor;
+}
+.squareRoot {
+    grid-area: squareRoot;
+}
+.root {
+    grid-area: root;
+}
+.fact {
+    grid-area: fact;
+}
+.memory {
+    grid-area: memory;
+}
+.history {
+    grid-area: history;
+}

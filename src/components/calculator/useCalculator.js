@@ -12,7 +12,11 @@ import {operationHandlerMap} from "./operation-handlers";
 import useCalculatorStateRefs from "./hooks/useCalculatorStateRefs";
 
 /* TODO add
+    Поправить операции, чот хуета какая-то
+     Когда выбираешь сначала операцию для двух, а потом операцию для одного должна выполняться операция для одного
+     Когда выбираешь сначала операцию, потом забиваешь числа - забивается второе, но такие нажатия должны игнорироваться
     1) Остальные операции
+        remove one
     2) Смайлик для операций
     3) Историю операций
     4) Сохранение одного числа в памяти и доставание из памяти
@@ -52,9 +56,10 @@ export default function useCalculator() {
     }, [validateValue])
 
     const handleEnterOperand = useCallback((value) => {
+        const operation = operationRef.current
         const stateUpdater = stateToViewUpdater(value)
 
-        if (operationRef.current) {
+        if (operation && OPERATIONS_WITH_TWO_OPERANDS.includes(operation)) {
             setSecondOperand(stateUpdater)
         } else {
             setFirstOperand(stateUpdater)
@@ -95,8 +100,11 @@ export default function useCalculator() {
             return
         }
 
-        if (operation !== OPERATION.CALCULATE) {
+        if (OPERATIONS_WITH_TWO_OPERANDS.includes(operation)) {
             setValueToDisplay(() => DEFAULT_CALCULATOR_VALUE)
+        }
+
+        if (operation !== OPERATION.CALCULATE) {
             setOperation(() => operation)
         }
 

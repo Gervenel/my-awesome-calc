@@ -1,9 +1,9 @@
 import React from 'react'
 import InputButtons from "../input-buttons";
 import Button from "../button";
+import {OPERATION} from "../constants";
 
 import styles from './styles.module.css'
-import {OPERATION} from "../constants";
 
 const BUTTONS = [
     { className: styles.clear, backgroundColor: '#333', value: OPERATION.CLEAR},
@@ -16,18 +16,17 @@ const BUTTONS = [
     { className: styles.calculate, backgroundColor: '#f57c00', value: OPERATION.CALCULATE},
 ]
 
-export default function BasicOperations({handleButtonClick}) {
+export default function BasicOperations({handleButtonClick, className}) {
     return (
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} ${className}`}>
             {BUTTONS.map(meta => (
                 <Button
                     key={meta.value}
                     className={meta.className}
                     backgroundColor={meta.backgroundColor}
                     handleClick={handleButtonClick}
-                >
-                    {meta.value}
-                </Button>
+                    value={meta.value}
+                />
             ))}
             <InputButtons className={styles.numbers} handleButtonClick={handleButtonClick} />
         </div>
