@@ -1,5 +1,4 @@
 import React, {useCallback, useRef, useState} from 'react'
-import {message} from "antd";
 
 import AdditionalOperations from "../additional-operations";
 import useCalculator from './hooks/useCalculator';
@@ -34,16 +33,6 @@ export default function Calculator() {
         setHistoryModalOpen(false)
     }, [])
 
-    const saveValue = useCallback(() => {
-        handleSaveValue()
-        message.info('Число сохранено в памяти')
-    }, [])
-
-    const setSavedValue = useCallback(() => {
-        handleSetSavedValue()
-        message.info('Чисто из памяти установленно текущем значением')
-    }, [])
-
     return (
         <div>
             <Emoji error={error} />
@@ -53,8 +42,8 @@ export default function Calculator() {
                     handleButtonClick={handleButtonClick}
                     handleOpenHistory={handleOpenHistory}
                     hasSavedValue={hasSavedValue}
-                    handleSaveValue={saveValue}
-                    handleSetSavedValue={setSavedValue}
+                    handleSaveValue={handleSaveValue}
+                    handleSetSavedValue={handleSetSavedValue}
                 />
             </div>
             <HistoryModal visible={historyModalOpen} history={history} hide={handleHideHistory} />

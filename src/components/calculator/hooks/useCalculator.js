@@ -127,6 +127,10 @@ export default function useCalculator() {
             if (unaryOperation === OPERATION.REMOVE_ONE) {
                 calculatedValue = currentValue.slice(0, currentValue.length - 1)
             } else {
+                if (unaryOperation === OPERATION.EXPONENT) {
+                    setIsFinish(true)
+                }
+
                 const operationHandler = operationHandlerMap.get(unaryOperation)
 
                 calculatedValue = operationHandler(parseFloat(currentValue)).toString()
