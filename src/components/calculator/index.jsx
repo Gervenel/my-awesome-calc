@@ -24,8 +24,6 @@ export default function Calculator() {
         setHistoryModalOpen(false)
     }, [])
 
-    console.log(historyModalOpen)
-
     return (
         <>
             <div className={styles.wrapper} onClick={handleCalculatorClick}>

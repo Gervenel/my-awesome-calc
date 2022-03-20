@@ -1,17 +1,17 @@
 import {useRef} from "react";
 
-export default function useCalculatorStateRefs(firstOperand, secondOperand, operation) {
+export default function useCalculatorStateRefs(firstOperand, secondOperand, binaryOperation) {
     const firstOperandRef = useRef(firstOperand)
     const secondOperandRef = useRef(secondOperand)
-    const operationRef = useRef(operation)
+    const binaryOperationRef = useRef(binaryOperation)
 
     firstOperandRef.current = firstOperand
     secondOperandRef.current = secondOperand
-    operationRef.current = operation
+    binaryOperationRef.current = binaryOperation
 
     return [
         firstOperandRef,
         secondOperandRef,
-        operationRef,
+        binaryOperationRef,
     ]
 }
