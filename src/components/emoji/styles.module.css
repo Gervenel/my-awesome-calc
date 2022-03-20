@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.text {
+    background: #676565;
+    border: 1px solid #676565;
+    padding: 10px;
+    font-size: 2rem;
+    color: white;
+    border-radius: 12px;
+}
+
+.emoji {
+    font-size: 4rem;
+}

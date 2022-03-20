@@ -5,15 +5,13 @@ import {
     OPERATIONS,
     OPERATIONS_WITH_ONE_OPERAND,
     DEFAULT_CALCULATOR_VALUE, OPERATION,
-} from "../constants";
-import {operationHandlerMap} from "./operation-handlers";
+} from "../../constants";
 
-import {
-    useSavedValue,
-    useCalcHistory,
-    useCalculatorStateRefs,
-    useCalculatorDisplayValueEffects,
-} from "./hooks";
+import useSavedValue from './useSavedValue'
+import useCalcHistory from './useCalcHistory'
+import useCalculatorStateRefs from './useCalculatorStateRefs'
+import useCalculatorDisplayValueEffects from './useCalculatorDisplayValueEffects'
+import useOperationHandlers from './useOperationHandlers'
 
 /* TODO add
         Если после операции, пользователь вводит число, сносить старое
@@ -30,6 +28,7 @@ export default function useCalculator() {
 
     const [firstOperandRef, secondOperandRef, binaryOperationRef] = useCalculatorStateRefs(firstOperand, secondOperand, binaryOperation)
     const [history, updateHistory] = useCalcHistory()
+    const { operationHandlerMap, error, handleResetError } = useOperationHandlers()
 
     useCalculatorDisplayValueEffects(firstOperand, secondOperand, setValueToDisplay)
 
@@ -97,6 +96,18 @@ export default function useCalculator() {
     }, [])
 
     const handleButtonClick = useCallback((value) => {
+        handleResetError()
+
+        let { firstOperand } = getCurrentValues()
+
+        firstOperand = parseFloat(firstOperand)
+
+        if (isNaN(firstOperand) || firstOperand === Infinity || firstOperand === -Infinity) {
+            setFirstOperand(DEFAULT_CALCULATOR_VALUE)
+            setSecondOperand('')
+            setBinaryOperation('')
+        }
+
         if (OPERANDS.includes(value)) {
             handleEnterOperand(value)
         } else if (OPERATIONS.includes(value)) {
@@ -162,6 +173,7 @@ export default function useCalculator() {
         hasSavedValue,
         handleSaveValue,
         handleSetSavedValue,
+        error
     }
 }
 
